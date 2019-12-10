@@ -22,6 +22,7 @@ public:
 
 public:
 
+	bool DynamicCamera; 
 	vec3 CameraDistance;
 	vec3 VehiclePos;
 	PhysVehicle3D* vehicle;

@@ -8,6 +8,7 @@
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
+	DynamicCamera = true;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -149,10 +150,19 @@ update_status ModulePlayer::Update(float dt)
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
 
-	//define where do you want to place the camera respect the vehicle
-	CameraDistance = { -12.0f, 6.0f, -10.0f };
-	//the camera follows the car
-	CameraFollowingPlayer();
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		DynamicCamera = !DynamicCamera;
+	}
+
+	if (DynamicCamera)
+	{
+		//define where do you want to place the camera respect the vehicle
+		CameraDistance = { -12.0f, 6.0f, -10.0f };
+		//the camera follows the car
+		CameraFollowingPlayer();
+	}
+	
 
 	return UPDATE_CONTINUE;
 }
