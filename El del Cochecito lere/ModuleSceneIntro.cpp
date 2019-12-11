@@ -38,6 +38,11 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
+	Cube c(1, 4, 1);
+	c.color = Color(255, 0, 0, 255);
+	c.SetPos(0, 2, 0);
+	c.Render();
+
 	return UPDATE_CONTINUE;
 }
 

@@ -22,7 +22,7 @@ bool ModulePlayer::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 2, 4);
+	car.chassis_size.Set(3, 2, 5);
 	car.chassis_offset.Set(0, 1.5, 0);
 	car.mass = 500.0f;
 	car.suspensionStiffness = 15.88f;
@@ -35,7 +35,7 @@ bool ModulePlayer::Start()
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
 	float wheel_radius = 0.6f;
-	float wheel_width = 0.5f;
+	float wheel_width = 0.6f;
 	float suspensionRestLength = 1.2f;
 
 	// Don't change anything below this line ------------------
