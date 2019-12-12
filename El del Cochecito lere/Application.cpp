@@ -56,7 +56,7 @@ bool Application::Init()
 
 	// Awake() the scene module for map loading
 	LOG("Scene Awake --------------");
-	scene_intro->Awake();
+	ret = scene_intro->Awake();
 
 	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");

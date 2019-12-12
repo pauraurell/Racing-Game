@@ -3,9 +3,13 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "p2DynArray.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	for (int i = 0; i < MAX_PILES; i++) {
+		mapPiles[i] = nullptr;
+	}
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -20,8 +24,15 @@ bool ModuleSceneIntro::Awake() {
 	}
 
 	pugi::xml_node pile;
+	int pilesAdded = 0;
 	for (pile = map_node.child("pile"); pile && ret; pile = pile.next_sibling("pile")) {
-		LOG("%i %i %i", pile.attribute("x").as_int(), pile.attribute("y").as_int(), pile.attribute("z").as_int());
+		//LOG("%i %i %i", pile.attribute("x").as_int(), pile.attribute("y").as_int(), pile.attribute("z").as_int());
+		Cube* c = new Cube(1, 4, 1);
+		c->color = Color(255, 0, 0, 255);
+		c->SetPos(pile.attribute("x").as_int(), pile.attribute("y").as_int(), pile.attribute("z").as_int());
+		//c.Render();
+		mapPiles[pilesAdded] = c;
+		pilesAdded++;
 	}
 
 	return ret;
@@ -37,6 +48,9 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
+	p = new Plane(0, 1, 0, 0);
+	p->axis = true;
+
 	return ret;
 }
 
@@ -45,20 +59,26 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
+	for (int i = 0; i < MAX_PILES; i++) {
+		if (mapPiles[i] != nullptr) {
+			delete mapPiles[i];
+			mapPiles[i] = nullptr;
+		}
+	}
+	delete p;
+
 	return true;
 }
 
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane p(0, 1, 0, 0);
-	p.axis = true;
-	p.Render();
-
-	Cube c(1, 4, 1);
-	c.color = Color(255, 0, 0, 255);
-	c.SetPos(0, 2, 0);
-	c.Render();
+	for (int i = 0; i < MAX_PILES; i++) {
+		if (mapPiles[i] != nullptr) {
+			mapPiles[i]->Render();
+		}
+	}
+	p->Render();
 
 	return UPDATE_CONTINUE;
 }

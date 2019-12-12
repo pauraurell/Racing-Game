@@ -7,6 +7,7 @@
 #include "PugiXml\src\pugixml.hpp"
 
 #define MAX_SNAKE 2
+#define MAX_PILES 300
 
 struct PhysBody3D;
 struct PhysMotor3D;
@@ -45,10 +46,13 @@ public:
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
 
+	Cube* mapPiles[MAX_PILES];
+
 private:
 	pugi::xml_document map_file;
 	pugi::xml_node map_node;
 
 	pugi::xml_node LoadMap(pugi::xml_document&) const;
 
+	Plane* p;
 };
