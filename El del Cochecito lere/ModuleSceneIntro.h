@@ -4,6 +4,8 @@
 #include "Globals.h"
 #include "Primitive.h"
 
+#include "PugiXml\src\pugixml.hpp"
+
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
@@ -15,6 +17,7 @@ public:
 	ModuleSceneIntro(Application* app, bool start_enabled = true);
 	~ModuleSceneIntro();
 
+	bool Awake();
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
@@ -41,4 +44,11 @@ public:
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
+
+private:
+	pugi::xml_document map_file;
+	pugi::xml_node map_node;
+
+	pugi::xml_node LoadMap(pugi::xml_document&) const;
+
 };

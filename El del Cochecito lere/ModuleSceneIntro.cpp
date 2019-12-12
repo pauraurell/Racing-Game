@@ -11,6 +11,23 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 ModuleSceneIntro::~ModuleSceneIntro()
 {}
 
+bool ModuleSceneIntro::Awake() {
+
+	bool ret = false;
+	map_node = LoadMap(map_file);
+	if (map_file.empty() == false) {
+		ret = true;
+	}
+
+	pugi::xml_node pile;
+	for (pile = map_node.child("pile"); pile && ret; pile = pile.next_sibling("pile")) {
+		LOG("%i %i %i", pile.attribute("x").as_int(), pile.attribute("y").as_int(), pile.attribute("z").as_int());
+	}
+
+	return ret;
+}
+
+
 // Load assets
 bool ModuleSceneIntro::Start()
 {
@@ -48,5 +65,18 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+
 }
 
+// ---------------------------------------------
+pugi::xml_node ModuleSceneIntro::LoadMap(pugi::xml_document& map_file) const
+{
+	pugi::xml_node ret;
+
+	pugi::xml_parse_result result = map_file.load_file("map.xml");
+
+	if (result == NULL) { LOG("Could not load map xml file map.xml. pugi error: %s", result.description()); }
+	else ret = map_file.child("map");
+
+	return ret;
+}
