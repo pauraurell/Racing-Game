@@ -11,7 +11,9 @@ struct PhysVehicle3D;
 
 enum cameraTypes {
 	THIRD_PERSON,
-	FIRST_PERSON
+	FIRST_PERSON,
+	UP_VIEW,
+	LOOK_BEHIND
 };
 class ModulePlayer : public Module
 {
@@ -22,6 +24,9 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+
+	//-----------Player_Camera-------------
+	void CameraPointOfView();
 	void CameraFollowingPlayer();
 
 public:

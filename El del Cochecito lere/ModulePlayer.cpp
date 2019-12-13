@@ -178,7 +178,9 @@ update_status ModulePlayer::Update(float dt)
 	{
 		DynamicCamera = true;
 		if (view == THIRD_PERSON) { view = FIRST_PERSON; }
-		else { view == THIRD_PERSON; }
+		else if (view == FIRST_PERSON) { view = UP_VIEW; }
+		else if (view == UP_VIEW) { view = THIRD_PERSON; }
+		else if (view == LOOK_BEHIND) { view = THIRD_PERSON; }
 	}
 
 	if (DynamicCamera)
@@ -191,34 +193,26 @@ update_status ModulePlayer::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
+void  ModulePlayer::CameraPointOfView()
+{
+	switch (view)
+	{
+		case THIRD_PERSON: CameraDistance = { -12.0f, 5.0f, -10.0f }; break;
+		case FIRST_PERSON: CameraDistance = { -6.f, 3.f, -5.f }; break;
+		case UP_VIEW: CameraDistance = { -18.0f, 10.0f, -14.0f }; break;
+		case LOOK_BEHIND: CameraDistance = { 12.0f, 6.0f, 10.0f }; break;
+	}
+}
+
 void  ModulePlayer::CameraFollowingPlayer()
 {
-	if (view == THIRD_PERSON) 
-	{
-		//define where do you want to place the camera respect the vehicle
-		CameraDistance = { -12.0f, 6.0f, -10.0f };
-		vec3 forwardVector = vehicle->GetForwardVector(); //the vector that looks forward respect the car position
-		vec3 NewCameraPosition = { VehiclePos.x + (forwardVector.x * CameraDistance.x), VehiclePos.y + (forwardVector.y + CameraDistance.y), VehiclePos.z + (forwardVector.z * CameraDistance.z) };
-		vec3 CamPos = App->camera->Position + (NewCameraPosition - App->camera->Position);
+	CameraPointOfView();
 
-		App->camera->Look(CamPos, VehiclePos);
+	vec3 forwardVector = vehicle->GetForward(); //the vector that looks forward respect the car position
+	vec3 NewCameraPosition = { VehiclePos.x + (forwardVector.x * CameraDistance.x), VehiclePos.y + (forwardVector.y + CameraDistance.y), VehiclePos.z + (forwardVector.z * CameraDistance.z) };
+	vec3 CamPos = App->camera->Position + (NewCameraPosition - App->camera->Position);
 
-	}
-
-	if (view == FIRST_PERSON)
-	{
-		//define where do you want to place the camera respect the vehicle
-		CameraDistance = { -6, 2.7f, -2.5f };
-		vec3 forwardVector = vehicle->GetForwardVector(); //the vector that looks forward respect the car position
-		vec3 NewCameraPosition = { VehiclePos.x + (forwardVector.x * CameraDistance.x), VehiclePos.y + (forwardVector.y + CameraDistance.y), VehiclePos.z + (forwardVector.z * CameraDistance.z) };
-		vec3 CamPos = App->camera->Position + (NewCameraPosition - App->camera->Position);
-
-		vec3 firstPersonRef = VehiclePos; 
-		firstPersonRef.z = VehiclePos.z + 10;
-
-		App->camera->Look(CamPos, firstPersonRef);
-
-	}
+	App->camera->Look(CamPos, VehiclePos);
 }
 
 

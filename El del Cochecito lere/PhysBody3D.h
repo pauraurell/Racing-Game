@@ -20,6 +20,7 @@ public:
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
 	const vec3 GetPos() const;
+	vec3 GetForward() const;
 
 
 private:

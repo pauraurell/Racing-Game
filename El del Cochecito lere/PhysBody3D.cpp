@@ -53,3 +53,16 @@ const vec3 PhysBody3D::GetPos() const
 	vec3 ret; ret.Set(v.getX(), v.getY(), v.getZ());
 	return ret;
 }
+
+vec3 PhysBody3D::GetForward() const
+{
+	mat4x4 transform;
+	body->getWorldTransform().getOpenGLMatrix(&transform);
+
+	mat3x3 rotation(transform);
+	vec3 forward(0.f, 0.f, 1.f);
+
+	forward = rotation * forward;
+
+	return forward;
+}
