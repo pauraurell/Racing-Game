@@ -37,6 +37,8 @@ bool ModuleSceneIntro::Awake() {
 		else { c->color = White; }
 		c->SetPos(pile.attribute("x").as_int(), pile.attribute("y").as_int() + Yoffset, pile.attribute("z").as_int());
 		mapPiles[pilesAdded] = c;
+		//Cube cnp = *c;
+		//App->physics->AddBody(cnp);
 
 		pilesAdded++;
 		colorIterator++;
@@ -57,6 +59,14 @@ bool ModuleSceneIntro::Start()
 
 	p = new Plane(0, 1, 0, 0);
 	p->axis = true;
+
+	for (int i = 0; i < MAX_PILES; i++) {
+		if (mapPiles[i] != nullptr)
+		{
+			Cube cnp = *mapPiles[i];
+			App->physics->AddBody(cnp, 200000);
+		}
+	}
 
 	return ret;
 }

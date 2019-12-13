@@ -17,7 +17,7 @@
 
 ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	debug = true;
+	debug = false;
 
 	collision_conf = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collision_conf);
@@ -112,7 +112,7 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
-	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		debug = !debug;
 
 	if(debug == true)
@@ -279,14 +279,21 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.add(comShape);
 
-	btCollisionShape* colShape = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
-	shapes.add(colShape);
+	btCollisionShape* colShapeChassis = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
+	shapes.add(colShapeChassis);
+
+	btCollisionShape* colShapeProw = new btBoxShape(btVector3(info.prow_size.x * 0.5f, info.prow_size.y * 0.5f, info.prow_size.z * 0.5f));
+	shapes.add(colShapeProw);
 
 	btTransform trans;
 	trans.setIdentity();
 	trans.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z));
+	btTransform trans1;
+	trans1.setIdentity();
+	trans1.setOrigin(btVector3(info.prow_offset.x, info.prow_offset.y, info.prow_offset.z));
 
-	comShape->addChildShape(trans, colShape);
+	comShape->addChildShape(trans, colShapeChassis);
+	comShape->addChildShape(trans1, colShapeProw);
 
 	btTransform startTransform;
 	startTransform.setIdentity();
