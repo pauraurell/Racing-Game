@@ -22,21 +22,21 @@ bool ModulePlayer::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(3, 2, 5);
-	car.chassis_offset.Set(0, 1.5, 0);
+	car.chassis_size.Set(3, 1, 6);
+	car.chassis_offset.Set(0, 1.5f, 0);
 	car.mass = 500.0f;
-	car.suspensionStiffness = 15.88f;
+	car.suspensionStiffness = 15.0f;
 	car.suspensionCompression = 0.83f;
-	car.suspensionDamping = 0.88f;
-	car.maxSuspensionTravelCm = 1000.0f;
+	car.suspensionDamping = 0.9f;
+	car.maxSuspensionTravelCm = 800.0f;
 	car.frictionSlip = 50.5;
 	car.maxSuspensionForce = 6000.0f;
 
 	// Wheel properties ---------------------------------------
-	float connection_height = 1.2f;
-	float wheel_radius = 0.6f;
+	float connection_height = 1.8f;
+	float wheel_radius = 0.7f;
 	float wheel_width = 0.6f;
-	float suspensionRestLength = 1.2f;
+	float suspensionRestLength = 0.8f;
 
 	// Don't change anything below this line ------------------
 
@@ -81,7 +81,7 @@ bool ModulePlayer::Start()
 	car.wheels[2].radius = wheel_radius;
 	car.wheels[2].width = wheel_width;
 	car.wheels[2].front = false;
-	car.wheels[2].drive = false;
+	car.wheels[2].drive = true;
 	car.wheels[2].brake = true;
 	car.wheels[2].steering = false;
 
@@ -93,12 +93,12 @@ bool ModulePlayer::Start()
 	car.wheels[3].radius = wheel_radius;
 	car.wheels[3].width = wheel_width;
 	car.wheels[3].front = false;
-	car.wheels[3].drive = false;
+	car.wheels[3].drive = true;
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 12, 10);
+	vehicle->SetPos(0, 3, 10);
 
 	
 	return true;
@@ -117,10 +117,21 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		acceleration = MAX_ACCELERATION;
+		if (vehicle->GetKmh() > 300) //Limit acceleration when velocity is bigger than 300 km/h
+			acceleration = MAX_ACCELERATION / (vehicle->GetKmh() / 200);
+		else {
+			if (acceleration < 10) acceleration = 1500;
+			else if (acceleration < MAX_ACCELERATION) acceleration = MAX_ACCELERATION * (vehicle->GetKmh() / 5); //Progresive acceleration for reality sensation
+			else acceleration = MAX_ACCELERATION;
+		}
 	}
+	else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		brake = BRAKE_POWER;
+	}
+	else brake = 10.0f;
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
@@ -132,11 +143,6 @@ update_status ModulePlayer::Update(float dt)
 	{
 		if(turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		brake = BRAKE_POWER;
 	}
 
 	VehiclePos = vehicle->GetPos();
