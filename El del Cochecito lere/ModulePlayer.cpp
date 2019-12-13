@@ -38,7 +38,7 @@ bool ModulePlayer::Start()
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.9f;
 	car.maxSuspensionTravelCm = 800.0f;
-	car.frictionSlip = 50.5;
+	car.frictionSlip = 20.5;
 	car.maxSuspensionForce = 6000.0f;
 
 	car.car_size = car.chassis_size + car.prow_size;
@@ -140,7 +140,9 @@ update_status ModulePlayer::Update(float dt)
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER;
+		if (vehicle->GetKmh() > 0)
+			brake = BRAKE_POWER;
+		else acceleration = -100;
 	}
 	else brake = 10.0f;
 
