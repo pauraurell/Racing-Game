@@ -3,6 +3,7 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "Color.h"
 #include "p2DynArray.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -25,14 +26,20 @@ bool ModuleSceneIntro::Awake() {
 
 	pugi::xml_node pile;
 	int pilesAdded = 0;
+	int colorIterator = 0;
+
 	for (pile = map_node.child("pile"); pile && ret; pile = pile.next_sibling("pile")) {
 		//LOG("%i %i %i", pile.attribute("x").as_int(), pile.attribute("y").as_int(), pile.attribute("z").as_int());
-		Cube* c = new Cube(1, 4, 1);
-		c->color = Color(255, 0, 0, 255);
-		c->SetPos(pile.attribute("x").as_int(), pile.attribute("y").as_int(), pile.attribute("z").as_int());
-		//c.Render();
+		
+		Cube* c = new Cube(1.2f, 1.7f, 1.2f);
+		float Yoffset = c->size.y / 2;
+		if (colorIterator % 2 == 0) { c->color = Red; }
+		else { c->color = White; }
+		c->SetPos(pile.attribute("x").as_int(), pile.attribute("y").as_int() + Yoffset, pile.attribute("z").as_int());
 		mapPiles[pilesAdded] = c;
+
 		pilesAdded++;
+		colorIterator++;
 	}
 
 	return ret;

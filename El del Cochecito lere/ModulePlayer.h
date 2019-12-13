@@ -9,6 +9,10 @@ struct PhysVehicle3D;
 #define TURN_DEGREES 12.0f * DEGTORAD
 #define BRAKE_POWER 100.0f
 
+enum cameraTypes {
+	THIRD_PERSON,
+	FIRST_PERSON
+};
 class ModulePlayer : public Module
 {
 public:
@@ -29,4 +33,7 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
+
+private:
+	cameraTypes view;
 };
