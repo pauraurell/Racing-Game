@@ -179,7 +179,7 @@ update_status ModulePlayer::Update(float dt)
 		DynamicCamera = true;
 		if (view == THIRD_PERSON) { view = FIRST_PERSON; }
 		else if (view == FIRST_PERSON) { view = UP_VIEW; }
-		else if (view == UP_VIEW) { view = THIRD_PERSON; }
+		else if (view == UP_VIEW) { view = LOOK_BEHIND; }
 		else if (view == LOOK_BEHIND) { view = THIRD_PERSON; }
 	}
 
