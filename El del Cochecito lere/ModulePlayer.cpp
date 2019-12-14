@@ -24,6 +24,9 @@ bool ModulePlayer::Start()
 	// Camera initial point of view --------------------------
 	view = THIRD_PERSON;
 
+	// Player spawn point --------------------------
+	vec3 spawnPoint = {20, 3, -70};
+
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2.5, 0.9f, 4);
 	car.chassis_offset.Set(0, 1.5, -1.5);
@@ -109,7 +112,7 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 3, 10);
+	vehicle->SetPos(spawnPoint.x, spawnPoint.y, spawnPoint.z);
 
 	
 	return true;
