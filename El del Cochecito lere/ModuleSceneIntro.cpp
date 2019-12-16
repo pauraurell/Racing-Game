@@ -31,7 +31,7 @@ bool ModuleSceneIntro::Awake() {
 	for (pile = map_node.child("pile"); pile && ret; pile = pile.next_sibling("pile")) {
 		//LOG("%i %i %i", pile.attribute("x").as_int(), pile.attribute("y").as_int(), pile.attribute("z").as_int());
 		
-		Cube* c = new Cube(1.2f, 1.7f, 1.2f);
+		Cube* c = new Cube(1.2f, 0.2f, 1.2f);
 		float Yoffset = c->size.y / 2;
 		if (colorIterator % 2 == 0) { c->color = Red; }
 		else { c->color = White; }
