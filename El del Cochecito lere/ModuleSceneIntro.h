@@ -7,7 +7,7 @@
 #include "PugiXml\src\pugixml.hpp"
 
 #define MAX_SNAKE 2
-#define MAX_PILES 300
+#define MAX_PILES 1000
 
 struct PhysBody3D;
 struct PhysMotor3D;
