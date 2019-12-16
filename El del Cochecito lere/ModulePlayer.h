@@ -6,7 +6,7 @@
 struct PhysVehicle3D;
 
 #define MAX_ACCELERATION 200.0f
-#define TURN_DEGREES 12.0f * DEGTORAD
+#define TURN_DEGREES 20.0f * DEGTORAD
 #define BRAKE_POWER 100.0f
 
 enum cameraTypes {

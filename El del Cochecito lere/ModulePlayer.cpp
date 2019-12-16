@@ -151,14 +151,23 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		if(turn < TURN_DEGREES)
-			turn +=  TURN_DEGREES;
+		if (turn < TURN_DEGREES) {
+			if (vehicle->GetKmh() < 60) {
+				turn += TURN_DEGREES;
+			}
+			else turn += TURN_DEGREES / (vehicle->GetKmh() / 80);
+		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		if(turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
+		if (turn > -TURN_DEGREES) {
+			if (vehicle->GetKmh() < 60) {
+				turn -= TURN_DEGREES;
+			}
+			else turn -= TURN_DEGREES / (vehicle->GetKmh() / 80);
+
+		}
 	}
 
 	VehiclePos = vehicle->GetPos();
