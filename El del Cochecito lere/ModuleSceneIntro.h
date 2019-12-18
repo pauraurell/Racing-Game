@@ -46,6 +46,9 @@ public:
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
 
+	Cube base;
+	Cube bar;
+
 	Cube* mapPiles[MAX_PILES];
 
 private:

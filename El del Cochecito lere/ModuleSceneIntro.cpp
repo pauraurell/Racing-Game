@@ -60,6 +60,15 @@ bool ModuleSceneIntro::Start()
 	p = new Plane(0, 1, 0, 0);
 	p->axis = true;
 
+	base = Cube(0.7f, 1, 0.7f);
+	float Yoffset = base.size.y / 2;
+	base.SetPos(19.5f, Yoffset, -45);
+	base.color = Blue;
+
+	bar = Cube(15, 0.7f, 0.7f);
+	bar.SetPos(12.3, 1.4f, -45);
+	bar.color = Yellow;
+
 	for (int i = 0; i < MAX_PILES; i++) {
 		if (mapPiles[i] != nullptr)
 		{
@@ -67,6 +76,9 @@ bool ModuleSceneIntro::Start()
 			App->physics->AddBody(cnp, 200000);
 		}
 	}
+	
+	App->physics->AddBody(base, 200000);
+	App->physics->AddBody(bar, 200000);
 
 	return ret;
 }
@@ -95,6 +107,8 @@ update_status ModuleSceneIntro::Update(float dt)
 			mapPiles[i]->Render();
 		}
 	}
+	base.Render();
+	bar.Render();
 	p->Render();
 
 	return UPDATE_CONTINUE;
