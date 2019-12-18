@@ -3,8 +3,10 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "ModulePlayer.h"
 #include "Color.h"
 #include "p2DynArray.h"
+#include "PhysVehicle3d.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -68,6 +70,13 @@ bool ModuleSceneIntro::Start()
 		}
 	}
 
+	//WIP
+	//checkpoint (lap counter)
+	//checkpoint = new Cube(3, 2.5, 14);
+	//checkpoint->color = Blue;
+	//checkpoint->SetPos(25, 1.5, -36.5f);
+	lap = 0;
+
 	return ret;
 }
 
@@ -96,14 +105,17 @@ update_status ModuleSceneIntro::Update(float dt)
 		}
 	}
 	p->Render();
+	checkpoint->Render();
+
+	char title[80];
+	sprintf_s(title, "%.1f Km/h  ||  Laps: %i  || Time: ", App->player->vehicle->GetKmh(), lap);
+	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
-{
-
-}
+{}
 
 // ---------------------------------------------
 pugi::xml_node ModuleSceneIntro::LoadMap(pugi::xml_document& map_file) const

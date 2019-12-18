@@ -48,6 +48,11 @@ public:
 
 	Cube* mapPiles[MAX_PILES];
 
+	//Laps
+
+	Cube* checkpoint;
+	int lap;
+
 private:
 	pugi::xml_document map_file;
 	pugi::xml_node map_node;
