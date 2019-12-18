@@ -79,8 +79,11 @@ bool ModuleSceneIntro::Start()
 		}
 	}
 	
-	App->physics->AddBody(base, 200000);
-	App->physics->AddBody(bar, 200000);
+	pBase = App->physics->AddBody(base, 200000);
+	pBar = App->physics->AddBody(bar, 200000);
+	const vec3 a(1, 1, 1);
+
+	//App->physics->AddConstraintHinge(*pBase, *pBar, a, a, a, a, true, true);
 
 	//WIP
 	//checkpoint (lap counter)
@@ -111,6 +114,20 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+	{
+		
+	}
+	
+	char title[80];
+	sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time: ", App->player->vehicle->GetKmh(), App->player->gear, lap);
+	App->window->SetTitle(title);
+
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleSceneIntro::PostUpdate(float dt)
+{
 	for (int i = 0; i < MAX_PILES; i++) {
 		if (mapPiles[i] != nullptr) {
 			mapPiles[i]->Render();
@@ -119,11 +136,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	base.Render();
 	bar.Render();
 	p->Render();
-	checkpoint->Render();
-
-	char title[80];
-	sprintf_s(title, "%.1f Km/h  ||  Laps: %i  || Time: ", App->player->vehicle->GetKmh(), lap);
-	App->window->SetTitle(title);
+	//checkpoint->Render();
 
 	return UPDATE_CONTINUE;
 }

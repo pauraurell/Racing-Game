@@ -21,6 +21,7 @@ public:
 	bool Awake();
 	bool Start();
 	update_status Update(float dt);
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
@@ -48,6 +49,8 @@ public:
 
 	Cube base;
 	Cube bar;
+	PhysBody3D* pBase;
+	PhysBody3D* pBar;
 
 	Cube* mapPiles[MAX_PILES];
 

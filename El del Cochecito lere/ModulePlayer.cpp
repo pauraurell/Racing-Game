@@ -20,6 +20,7 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
+	gear = 1;
 
 	// Camera initial point of view --------------------------
 	view = THIRD_PERSON;
@@ -131,6 +132,7 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
+	//VEHICLE MOVEMENT
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		if (vehicle->GetKmh() > 300) //Limit acceleration when velocity is bigger than 300 km/h
@@ -168,6 +170,43 @@ update_status ModulePlayer::Update(float dt)
 			else turn -= TURN_DEGREES / (vehicle->GetKmh() / 80);
 
 		}
+	}
+
+	//VEHICLE GEARS
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && gear <= 7) { gear += 1; }
+
+	switch (gear)
+	{
+		case 1:
+			if (vehicle->GetKmh() > 30) { acceleration = 0; }
+			break;
+		case 2:
+			if (vehicle->GetKmh() > 60) { acceleration = 0; }
+			if (vehicle->GetKmh() < 20) { gear -= 1; }
+			break;
+		case 3:
+			if (vehicle->GetKmh() > 90) { acceleration = 0; }
+			if (vehicle->GetKmh() < 50) { gear -= 1; }
+			break;
+		case 4:
+			if (vehicle->GetKmh() > 120) { acceleration = 0; }
+			if (vehicle->GetKmh() < 80) { gear -= 1; }
+			break;
+		case 5:
+			if (vehicle->GetKmh() > 160) { acceleration = 0; }
+			if (vehicle->GetKmh() < 110) { gear -= 1; }
+			break;
+		case 6:
+			if (vehicle->GetKmh() > 200) { acceleration = 0; }
+			if (vehicle->GetKmh() < 150) { gear -= 1; }
+			break;
+		case 7:
+			if (vehicle->GetKmh() > 250) { acceleration = 0; }
+			if (vehicle->GetKmh() < 190) { gear -= 1; }
+			break;
+		case 8:
+			if (vehicle->GetKmh() < 240) { gear -= 1; }
+			break;
 	}
 
 	VehiclePos = vehicle->GetPos();
