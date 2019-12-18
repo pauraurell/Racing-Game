@@ -145,7 +145,7 @@ update_status ModulePlayer::Update(float dt)
 	{
 		if (vehicle->GetKmh() > 0)
 			brake = BRAKE_POWER;
-		else acceleration = -100;
+		else acceleration = -MAX_ACCELERATION;
 	}
 	else brake = 10.0f;
 
