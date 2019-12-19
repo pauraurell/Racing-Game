@@ -49,6 +49,9 @@ bool ModuleSceneIntro::Awake()
 		colorIterator++;
 	}
 
+	coinSound = App->audio->LoadFx("Audio/Coin.wav");
+	winSound = App->audio->LoadFx("Audio/Win.wav");
+
 	return ret;
 }
 
@@ -153,7 +156,7 @@ bool ModuleSceneIntro::Start()
 	const vec3 b(8, 0, 0);
 	const vec3 c(0, 0, 1);
 	hinge = App->physics->AddConstraintHinge(*pBase, *pBar, a, b, c, c, false);
-	hinge->setLimit(0, 90);
+	hinge->setLimit(0, 89);
 	hinge->enableAngularMotor(true, 0, INFINITE);
 
 	//WIP
@@ -216,15 +219,18 @@ update_status ModuleSceneIntro::Update(float dt)
 		if (App->player->VehiclePos.x > checkpointPos.x && App->player->VehiclePos.x < checkpointPos.z) {
 			if (!lap_) {
 				lap++;
+				App->audio->PlayFx(coinSound);
 				lap_ = true;
 				LapTimer.Start();
+				if (lap == 8) {
+					Win();
+				}
 			}
 		}
 	}
 	else {
 		lap_ = false;
 	}
-
 
 	return UPDATE_CONTINUE;
 }
@@ -419,4 +425,8 @@ void ModuleSceneIntro::SpectColorChange(int scuderia)
 			}
 			break;
 	}
+}
+
+void ModuleSceneIntro::Win() {
+	App->audio->PlayFx(winSound);
 }

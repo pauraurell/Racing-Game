@@ -31,6 +31,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void SpectAnimation();
 	void SpectColorChange(int scuderia);
+	void Win();
 
 public:
 
@@ -71,6 +72,9 @@ public:
 	//Timers
 	int currentTime;
 	Timer LapTimer;
+
+	int coinSound;
+	int winSound;
 
 private:
 	pugi::xml_document map_file;

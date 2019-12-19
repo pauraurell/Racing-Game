@@ -178,8 +178,7 @@ update_status ModulePlayer::Update(float dt)
 	}
 
 	//BAR INPUT
-	if (VehiclePos.z > -60 && barUp == false) {
-		LOG("%i", VehiclePos.z);
+	if (VehiclePos.z > -60 && VehiclePos.z < -40 && barUp == false) {
 		App->scene_intro->hinge->enableAngularMotor(true, 1, INFINITE);
 		App->scene_intro->bar.color = Green;
 		barUp = true;
@@ -190,6 +189,7 @@ update_status ModulePlayer::Update(float dt)
 
 	//RESTART
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { Restart(); }
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) { App->scene_intro->lap = 8; App->scene_intro->Win(); }
 
 	//CHANGE CAR
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
@@ -309,6 +309,7 @@ void ModulePlayer::Restart()
 
 	if (barUp == true)
 	{
+		App->scene_intro->hinge->enableAngularMotor(false, 0, INFINITE);
 		App->scene_intro->hinge->enableAngularMotor(true, -1, INFINITE);
 		App->scene_intro->bar.color = Red;
 		barUp = false;
@@ -317,9 +318,3 @@ void ModulePlayer::Restart()
 	App->scene_intro->lap = 0;
 	App->scene_intro->LapTimer.Start();
 }
-
-
-
-
-
-
