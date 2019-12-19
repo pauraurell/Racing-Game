@@ -153,7 +153,7 @@ bool ModuleSceneIntro::Start()
 	const vec3 b(8, 0, 0);
 	const vec3 c(0, 0, 1);
 	hinge = App->physics->AddConstraintHinge(*pBase, *pBar, a, b, c, c, false);
-	hinge->setLimit(-1, 90);
+	hinge->setLimit(-1, 89.3);
 	hinge->enableAngularMotor(true, 0, INFINITE);
 
 	//WIP
