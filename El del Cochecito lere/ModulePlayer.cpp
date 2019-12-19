@@ -186,7 +186,7 @@ update_status ModulePlayer::Update(float dt)
 		}
 		else if (barUp == true)
 		{
-			App->scene_intro->hinge->enableAngularMotor(false, 0, INFINITE);
+			App->scene_intro->hinge->enableAngularMotor(true, -1, INFINITE);
 			App->scene_intro->bar.color = Red;
 		}
 		if (barUp == true) { barUp = false; }
