@@ -21,6 +21,8 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	gear = 1;
+	barUp = false;
+	lap = false;
 
 	// Camera initial point of view --------------------------
 	view = THIRD_PERSON;
@@ -175,10 +177,20 @@ update_status ModulePlayer::Update(float dt)
 	}
 
 	//BAR INPUT
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 	{
-		App->scene_intro->hinge->enableAngularMotor(true, 1, INFINITE);
-		App->scene_intro->bar.color = Green;
+		if (barUp == false)
+		{
+			App->scene_intro->hinge->enableAngularMotor(true, 1, INFINITE);
+			App->scene_intro->bar.color = Green;
+		}
+		else if (barUp == true)
+		{
+			App->scene_intro->hinge->enableAngularMotor(false, 0, INFINITE);
+			App->scene_intro->bar.color = Red;
+		}
+		if (barUp == true) { barUp = false; }
+		else { barUp = true; }
 	}
 
 	//VEHICLE GEARS
@@ -265,7 +277,7 @@ update_status ModulePlayer::Update(float dt)
 		//the camera follows the car
 		CameraFollowingPlayer();
 	}
-	
+
 
 	return UPDATE_CONTINUE;
 }
@@ -302,7 +314,9 @@ void ModulePlayer::Restart()
 	btQuaternion SpawnOrientation = { 0, 0, 0, 1 };
 	vehicle->SetRotation(SpawnOrientation);
 
+	App->scene_intro->hinge->enableAngularMotor(false, -1, INFINITE);
 	App->scene_intro->bar.color = Red;
+	barUp = false;
 
 	App->scene_intro->lap = 0;
 	App->scene_intro->LapTimer.Start();
