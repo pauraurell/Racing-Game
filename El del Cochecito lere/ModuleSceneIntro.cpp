@@ -86,7 +86,6 @@ bool ModuleSceneIntro::Start()
 	stands3->SetPos(-110, Yoffset + 6, 10);
 	stands3->color = Red;
 
-	int initialYpos;
 	int cYoffset;
 	int rColor;
 	int spectCount = 0;
@@ -95,6 +94,7 @@ bool ModuleSceneIntro::Start()
 	{
 		Cube* c = new Cube(1.2f, 1.7f, 1.2f);
 		cYoffset = c->size.y / 2;
+		spectYpos = cYoffset + Yoffset;
 		
 		rColor = (int)(std::rand() % 6);
 		switch (rColor)
@@ -121,19 +121,17 @@ bool ModuleSceneIntro::Start()
 				c->color = NavyBlue;
 				break;
 		}
-		initialYpos = (float)(std::rand() % 2);
+		spectYmov[i] = (float)(std::rand() % 2);
 		if (spectCount < 45) {
-			c->SetPos(-100, cYoffset + Yoffset + 2 + initialYpos, 54 - spectCount * 2);
-			spectYpos[spectCount] = cYoffset + Yoffset + 2 + initialYpos;
+			c->SetPos(-100, cYoffset + Yoffset + 2 + spectYmov[i], 54 - spectCount * 2);
 		}
 		else if (spectCount >= 45 && spectCount < 90) {
-			c->SetPos(-105, cYoffset + Yoffset + 5 + initialYpos, 54 - (spectCount - 45) * 2);
-			spectYpos[spectCount] = cYoffset + Yoffset + 2 + initialYpos;
+			c->SetPos(-105, cYoffset + Yoffset + 5 + spectYmov[i], 54 - (spectCount - 45) * 2);
 		}
 		else if (spectCount >= 90) {
-			c->SetPos(-110, cYoffset + Yoffset + 8 + initialYpos, 54 - (spectCount - 90) * 2);
-			spectYpos[spectCount] = cYoffset + Yoffset + 2 + initialYpos;
+			c->SetPos(-110, cYoffset + Yoffset + 8 + spectYmov[i], 54 - (spectCount - 90) * 2);
 		}
+		spectUp[i] = false;
 		spectators[spectAdded] = c;
 		spectAdded++;
 		spectCount++;
@@ -180,6 +178,15 @@ bool ModuleSceneIntro::CleanUp()
 			mapPiles[i] = nullptr;
 		}
 	}
+	for (int i = 0; i < MAX_SPECTATORS; i++) {
+		if (spectators[i] != nullptr) {
+			delete spectators[i];
+			spectators[i] = nullptr;
+		}
+	}
+	delete stands1;
+	delete stands2;
+	delete stands3;
 	delete p;
 
 	return true;
@@ -192,6 +199,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		hinge->enableAngularMotor(true, 1, INFINITE);
 	}
+
+	SpectAnimation();
 	
 	pBar->GetTransform(bar.transform.M);
 
@@ -259,18 +268,21 @@ void ModuleSceneIntro::SpectAnimation()
 {
 	for (int i = 0; i < MAX_SPECTATORS; i++)
 	{
-
-
+		if (spectUp[i] == true) { spectYmov[i] += 0.15; }
+		else if (spectUp[i] == false) { spectYmov[i] -= 0.15; }
 
 		if (i < 45) {
-			spectators[i]->SetPos(-100, spectYpos[i] + spectYmov[i], 54 - i * 2);
+			spectators[i]->SetPos(-100, spectYpos + 2 + spectYmov[i], 54 - i * 2);
 		}
 		else if (i >= 45 && i < 90) {
-			spectators[i]->SetPos(-105, spectYpos[i] + spectYmov[i], 54 - (i - 45) * 2);
+			spectators[i]->SetPos(-105, spectYpos + 5 + spectYmov[i], 54 - (i - 45) * 2);
 		}
 		else if (i >= 90) {
-			spectators[i]->SetPos(-110, spectYpos[i] + spectYmov[i], 54 - (i - 90) * 2);
+			spectators[i]->SetPos(-110, spectYpos + 8 + spectYmov[i], 54 - (i - 90) * 2);
 		}
+
+		if (spectYmov[i] >= 2) { spectUp[i] = false; }
+		if (spectYmov[i] <= 0) { spectUp[i] = true; }
 	}
 }
 

@@ -56,8 +56,9 @@ public:
 
 	Cube* mapPiles[MAX_PILES];
 	Cube* spectators[MAX_SPECTATORS];
-	float spectYpos[MAX_SPECTATORS];
+	float spectYpos;
 	float spectYmov[MAX_SPECTATORS];
+	bool spectUp[MAX_SPECTATORS];
 
 	//Laps
 	PhysBody3D* checkpointBody;
