@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
+#include "Timer.h"
 
 #include "PugiXml\src\pugixml.hpp"
 
@@ -13,6 +14,7 @@
 
 struct PhysBody3D;
 struct PhysMotor3D;
+struct Timer;
 
 class ModuleSceneIntro : public Module
 {
@@ -64,6 +66,10 @@ public:
 	PhysBody3D* checkpointBody;
 	Cube checkpoint;
 	int lap;
+
+	//Timers
+	int currentTime;
+	Timer LapTimer;
 
 private:
 	pugi::xml_document map_file;

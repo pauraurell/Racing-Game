@@ -286,6 +286,7 @@ void ModulePlayer::Restart()
 	App->scene_intro->bar.color = Red;
 
 	App->scene_intro->lap = 0;
+	App->scene_intro->LapTimer.Start();
 }
 
 
