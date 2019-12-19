@@ -196,7 +196,8 @@ update_status ModulePlayer::Update(float dt)
 	{
 		if (vehicle->Scuderia == Renault) { vehicle->Scuderia = Ferrari; }
 		else if (vehicle->Scuderia == Ferrari) { vehicle->Scuderia = McLaren; }
-		else if (vehicle->Scuderia == McLaren) { vehicle->Scuderia = Renault; }
+		else if (vehicle->Scuderia == McLaren) { vehicle->Scuderia = RedBull; }
+		else if (vehicle->Scuderia == RedBull) { vehicle->Scuderia = Renault; }
 	}
 	
 	switch (gear)

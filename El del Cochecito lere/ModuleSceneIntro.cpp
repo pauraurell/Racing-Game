@@ -199,7 +199,15 @@ update_status ModuleSceneIntro::Update(float dt)
 	char title[80];
 	int MaxTime = 40 - lap*4;
 	currentTime = LapTimer.Read() / 1000;
-	sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i", App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime);
+	if (App->player->vehicle->Scuderia == Renault) { sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i || Scuderia: Reanult", 
+	App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime); }
+	if (App->player->vehicle->Scuderia == Ferrari) { sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i || Scuderia: Ferrari", 
+	App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime); }
+	if (App->player->vehicle->Scuderia == McLaren) {sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i || Scuderia: McLaren",
+	App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime);}
+	if (App->player->vehicle->Scuderia == RedBull) {sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i || Scuderia: RedBull",
+	App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime);}
+	
 	App->window->SetTitle(title);
 
 	if (currentTime > MaxTime) { App->player->Restart(); }
