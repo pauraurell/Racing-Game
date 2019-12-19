@@ -7,6 +7,7 @@
 #include "Color.h"
 #include "p2DynArray.h"
 #include "PhysVehicle3d.h"
+#include <math.h>
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -18,11 +19,13 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 ModuleSceneIntro::~ModuleSceneIntro()
 {}
 
-bool ModuleSceneIntro::Awake() {
+bool ModuleSceneIntro::Awake()
+{
 
 	bool ret = false;
 	map_node = LoadMap(map_file);
-	if (map_file.empty() == false) {
+	if (map_file.empty() == false)
+	{
 		ret = true;
 	}
 
@@ -30,7 +33,8 @@ bool ModuleSceneIntro::Awake() {
 	int pilesAdded = 0;
 	int colorIterator = 0;
 
-	for (pile = map_node.child("pile"); pile && ret; pile = pile.next_sibling("pile")) {
+	for (pile = map_node.child("pile"); pile && ret; pile = pile.next_sibling("pile"))
+	{
 		//LOG("%i %i %i", pile.attribute("x").as_int(), pile.attribute("y").as_int(), pile.attribute("z").as_int());
 		
 		Cube* c = new Cube(1.2f, 1.7f, 1.2f);
@@ -71,7 +75,71 @@ bool ModuleSceneIntro::Start()
 	bar.SetPos(12.3, 1.4f, -45);
 	bar.color = Yellow;
 
-	for (int i = 0; i < MAX_PILES; i++) {
+	stands1 = new Cube(3, 3, 90);
+	Yoffset = stands1->size.y / 2;
+	stands1->SetPos(-100, Yoffset, 10);
+	stands1->color = Red;
+
+	stands2 = new Cube(3, 3, 90);
+	stands2->SetPos(-105, Yoffset + 3, 10);
+	stands2->color = Red;
+
+	stands3 = new Cube(3, 3, 90);
+	stands3->SetPos(-110, Yoffset + 6, 10);
+	stands3->color = Red;
+
+	int initialYpos;
+	int cYoffset;
+	int rColor;
+	int spectCount = 0;
+	int spectAdded = 0;
+	for (int i = 0; i < MAX_SPECTATORS; i++)
+	{
+		Cube* c = new Cube(1.2f, 1.7f, 1.2f);
+		cYoffset = c->size.y / 2;
+		
+		rColor = (int)(std::rand() % 6);
+		switch (rColor)
+		{
+			case 0:
+				c->color = Blue;
+				break;
+			case 1:
+				c->color = Black;
+				break;
+			case 2:
+				c->color = White;
+				break;
+			case 3:
+				c->color = Yellow;
+				break;
+			case 4:
+				c->color = LightBlue;
+				break;
+			case 5:
+				c->color = Grey;
+				break;
+			case 6:
+				c->color = NavyBlue;
+				break;
+		}
+		initialYpos = (float)(std::rand() % 2);
+		if (spectCount < 45) {
+			c->SetPos(-100, cYoffset + Yoffset + 2 + initialYpos, 54 - spectCount * 2);
+		}
+		else if (spectCount >= 45 && spectCount < 90) {
+			c->SetPos(-105, cYoffset + Yoffset + 5 + initialYpos, 54 - (spectCount - 45) * 2);
+		}
+		else if (spectCount >= 90) {
+			c->SetPos(-110, cYoffset + Yoffset + 8 + initialYpos, 54 - (spectCount - 90) * 2);
+		}
+		spectators[spectAdded] = c;
+		spectAdded++;
+		spectCount++;
+	}
+
+	for (int i = 0; i < MAX_PILES; i++)
+	{
 		if (mapPiles[i] != nullptr)
 		{
 			Cube cnp = *mapPiles[i];
@@ -134,8 +202,16 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 			mapPiles[i]->Render();
 		}
 	}
+	for (int i = 0; i < MAX_SPECTATORS; i++) {
+		if (spectators[i] != nullptr) {
+			spectators[i]->Render();
+		}
+	}
 	base.Render();
 	bar.Render();
+	stands1->Render();
+	stands2->Render();
+	stands3->Render();
 	p->Render();
 	checkpoint.Render();
 
