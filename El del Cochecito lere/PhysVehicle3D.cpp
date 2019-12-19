@@ -14,6 +14,7 @@ VehicleInfo::~VehicleInfo()
 // ----------------------------------------------------------------------------
 PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info) : PhysBody3D(body), vehicle(vehicle), info(info)
 {
+	Scuderia = Renault;
 }
 
 // ----------------------------------------------------------------------------
@@ -45,7 +46,7 @@ void PhysVehicle3D::Render()
 	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
 	btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
 	offset = offset.rotate(q.getAxis(), q.getAngle());
-	chassis.color = LightBlue;
+
 
 	chassis.transform.M[12] += offset.getX();
 	chassis.transform.M[13] += offset.getY();
@@ -57,7 +58,6 @@ void PhysVehicle3D::Render()
 	btVector3 offset2(info.glass_offset.x, info.glass_offset.y,
 	info.glass_offset.z);
 	offset2 = offset2.rotate(q2.getAxis(), q2.getAngle());
-	glass.color = Yellow;
 
 	glass.transform.M[12] += offset2.getX();
 	glass.transform.M[13] += offset2.getY();
@@ -69,7 +69,6 @@ void PhysVehicle3D::Render()
 	btVector3 offset3(info.prow_offset.x, info.prow_offset.y,
 		info.prow_offset.z);
 	offset3 = offset3.rotate(q3.getAxis(), q3.getAngle());
-	prow.color = Yellow;
 
 	prow.transform.M[12] += offset3.getX();
 	prow.transform.M[13] += offset3.getY();
@@ -81,7 +80,6 @@ void PhysVehicle3D::Render()
 	btVector3 offset4(info.aileron_offset.x, info.aileron_offset.y,
 		info.aileron_offset.z);
 	offset4 = offset4.rotate(q4.getAxis(), q4.getAngle());
-	aileron.color = NavyBlue;
 
 	aileron.transform.M[12] += offset4.getX();
 	aileron.transform.M[13] += offset4.getY();
@@ -100,10 +98,30 @@ void PhysVehicle3D::Render()
 	light.transform.M[13] += offset5.getY();
 	light.transform.M[14] += offset5.getZ();
 
-	chassis.Render();
-	glass.Render();
-	prow.Render();
-	aileron.Render();
+	switch (Scuderia) 
+	{
+		case Renault:
+			chassis.color = LightBlue; chassis.Render();
+			glass.color = Yellow; glass.Render();
+			prow.color = Yellow; prow.Render();
+			aileron.color = NavyBlue; aileron.Render();
+			break;
+
+		case Ferrari:
+			chassis.color = Red; chassis.Render();
+			glass.color = Red2; glass.Render();
+			prow.color = Red2; prow.Render();
+			aileron.color = Grey; aileron.Render();
+			break;
+
+		case McLaren:
+			chassis.color = Orange2; chassis.Render();
+			glass.color = Orange; glass.Render();
+			prow.color = Orange; prow.Render();
+			aileron.color = Blue; aileron.Render();
+			break;
+	}
+
 	light.Render();
 }
 
@@ -148,3 +166,4 @@ float PhysVehicle3D::GetKmh() const
 {
 	return vehicle->getCurrentSpeedKmHour();
 }
+
