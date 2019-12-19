@@ -120,6 +120,13 @@ void PhysVehicle3D::Render()
 			prow.color = Orange; prow.Render();
 			aileron.color = Blue; aileron.Render();
 			break;
+
+		case RedBull:
+			chassis.color = NavyBlue; chassis.Render();
+			glass.color = Yellow; glass.Render();
+			prow.color = Yellow; prow.Render();
+			aileron.color = Red3; aileron.Render();
+			break;
 	}
 
 	light.Render();

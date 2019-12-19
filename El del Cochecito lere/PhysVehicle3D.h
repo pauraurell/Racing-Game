@@ -51,7 +51,8 @@ struct VehicleInfo
 enum SetOfColors {
 	Renault,
 	Ferrari,
-	McLaren
+	McLaren,
+	RedBull
 };
 
 struct PhysVehicle3D : public PhysBody3D
