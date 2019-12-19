@@ -293,3 +293,130 @@ void ModuleSceneIntro::SpectAnimation()
 	}
 }
 
+void ModuleSceneIntro::SpectColorChange(int scuderia) 
+{
+	int rColor;
+	switch (scuderia)
+	{
+		case 0:
+			for (int i = 0; i < MAX_SPECTATORS; i++)
+			{
+				rColor = (int)(std::rand() % 6);
+				switch (rColor)
+				{
+				case 0:
+					spectators[i]->color = Blue;
+					break;
+				case 1:
+					spectators[i]->color = Black;
+					break;
+				case 2:
+					spectators[i]->color = White;
+					break;
+				case 3:
+					spectators[i]->color = Yellow;
+					break;
+				case 4:
+					spectators[i]->color = LightBlue;
+					break;
+				case 5:
+					spectators[i]->color = Grey;
+					break;
+				case 6:
+					spectators[i]->color = NavyBlue;
+					break;
+				}
+			}
+			break;
+		case 1:
+			for (int i = 0; i < MAX_SPECTATORS; i++)
+			{
+				rColor = (int)(std::rand() % 6);
+				switch (rColor)
+				{
+				case 0:
+					spectators[i]->color = Red;
+					break;
+				case 1:
+					spectators[i]->color = Red2;
+					break;
+				case 2:
+					spectators[i]->color = White;
+					break;
+				case 3:
+					spectators[i]->color = Yellow;
+					break;
+				case 4:
+					spectators[i]->color = Red3;
+					break;
+				case 5:
+					spectators[i]->color = Grey;
+					break;
+				case 6:
+					spectators[i]->color = Yellow2;
+					break;
+				}
+			}
+			break;
+		case 2:
+			for (int i = 0; i < MAX_SPECTATORS; i++)
+			{
+				rColor = (int)(std::rand() % 6);
+				switch (rColor)
+				{
+				case 0:
+					spectators[i]->color = Blue;
+					break;
+				case 1:
+					spectators[i]->color = Orange2;
+					break;
+				case 2:
+					spectators[i]->color = White;
+					break;
+				case 3:
+					spectators[i]->color = Orange;
+					break;
+				case 4:
+					spectators[i]->color = LightBlue;
+					break;
+				case 5:
+					spectators[i]->color = Grey;
+					break;
+				case 6:
+					spectators[i]->color = NavyBlue;
+					break;
+				}
+			}
+			break;
+		case 3:
+			for (int i = 0; i < MAX_SPECTATORS; i++)
+			{
+				rColor = (int)(std::rand() % 6);
+				switch (rColor)
+				{
+				case 0:
+					spectators[i]->color = Blue;
+					break;
+				case 1:
+					spectators[i]->color = Yellow2;
+					break;
+				case 2:
+					spectators[i]->color = NavyBlue;
+					break;
+				case 3:
+					spectators[i]->color = Yellow;
+					break;
+				case 4:
+					spectators[i]->color = Red3;
+					break;
+				case 5:
+					spectators[i]->color = Grey;
+					break;
+				case 6:
+					spectators[i]->color = NavyBlue;
+					break;
+				}
+			}
+			break;
+	}
+}

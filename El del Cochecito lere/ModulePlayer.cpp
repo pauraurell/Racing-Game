@@ -194,10 +194,10 @@ update_status ModulePlayer::Update(float dt)
 	//CHANGE CAR
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		if (vehicle->Scuderia == Renault) { vehicle->Scuderia = Ferrari; }
-		else if (vehicle->Scuderia == Ferrari) { vehicle->Scuderia = McLaren; }
-		else if (vehicle->Scuderia == McLaren) { vehicle->Scuderia = RedBull; }
-		else if (vehicle->Scuderia == RedBull) { vehicle->Scuderia = Renault; }
+		if (vehicle->Scuderia == Renault) { vehicle->Scuderia = Ferrari; App->scene_intro->SpectColorChange(1); }
+		else if (vehicle->Scuderia == Ferrari) { vehicle->Scuderia = McLaren; App->scene_intro->SpectColorChange(2); }
+		else if (vehicle->Scuderia == McLaren) { vehicle->Scuderia = RedBull; App->scene_intro->SpectColorChange(3); }
+		else if (vehicle->Scuderia == RedBull) { vehicle->Scuderia = Renault; App->scene_intro->SpectColorChange(0); }
 	}
 	
 	switch (gear)

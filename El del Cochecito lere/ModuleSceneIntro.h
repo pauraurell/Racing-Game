@@ -30,6 +30,7 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void SpectAnimation();
+	void SpectColorChange(int scuderia);
 
 public:
 
