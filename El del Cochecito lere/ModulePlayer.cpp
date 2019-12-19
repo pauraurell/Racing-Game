@@ -178,34 +178,34 @@ update_status ModulePlayer::Update(float dt)
 	switch (gear)
 	{
 		case 1:
-			if (vehicle->GetKmh() > 30) { acceleration = 0; }
+			if (vehicle->GetKmh() >= 30) { acceleration = 0; }
 			break;
 		case 2:
-			if (vehicle->GetKmh() > 60) { acceleration = 0; }
-			if (vehicle->GetKmh() < 20) { gear -= 1; }
+			if (vehicle->GetKmh() >= 60) { acceleration = 0; }
+			if (vehicle->GetKmh() < 10) { gear -= 1; }
 			break;
 		case 3:
-			if (vehicle->GetKmh() > 90) { acceleration = 0; }
-			if (vehicle->GetKmh() < 50) { gear -= 1; }
+			if (vehicle->GetKmh() >= 90) { acceleration = 0; }
+			if (vehicle->GetKmh() < 30) { gear -= 1; }
 			break;
 		case 4:
-			if (vehicle->GetKmh() > 120) { acceleration = 0; }
-			if (vehicle->GetKmh() < 80) { gear -= 1; }
+			if (vehicle->GetKmh() >= 120) { acceleration = 0; }
+			if (vehicle->GetKmh() < 60) { gear -= 1; }
 			break;
 		case 5:
-			if (vehicle->GetKmh() > 160) { acceleration = 0; }
-			if (vehicle->GetKmh() < 110) { gear -= 1; }
+			if (vehicle->GetKmh() >= 160) { acceleration = 0; }
+			if (vehicle->GetKmh() < 90) { gear -= 1; }
 			break;
 		case 6:
-			if (vehicle->GetKmh() > 200) { acceleration = 0; }
-			if (vehicle->GetKmh() < 150) { gear -= 1; }
+			if (vehicle->GetKmh() >= 200) { acceleration = 0; }
+			if (vehicle->GetKmh() < 120) { gear -= 1; }
 			break;
 		case 7:
-			if (vehicle->GetKmh() > 250) { acceleration = 0; }
-			if (vehicle->GetKmh() < 190) { gear -= 1; }
+			if (vehicle->GetKmh() >= 250) { acceleration = 0; }
+			if (vehicle->GetKmh() < 160) { gear -= 1; }
 			break;
 		case 8:
-			if (vehicle->GetKmh() < 240) { gear -= 1; }
+			if (vehicle->GetKmh() < 200) { gear -= 1; }
 			break;
 	}
 
