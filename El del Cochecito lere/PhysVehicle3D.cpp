@@ -108,7 +108,7 @@ void PhysVehicle3D::Render()
 			break;
 
 		case Ferrari:
-			chassis.color = Red; chassis.Render();
+			chassis.color = Red3; chassis.Render();
 			glass.color = Red2; glass.Render();
 			prow.color = Red2; prow.Render();
 			aileron.color = Grey; aileron.Render();
