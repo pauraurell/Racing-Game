@@ -43,8 +43,6 @@ bool ModuleSceneIntro::Awake()
 		else { c->color = White; }
 		c->SetPos(pile.attribute("x").as_int(), pile.attribute("y").as_int() + Yoffset, pile.attribute("z").as_int());
 		mapPiles[pilesAdded] = c;
-		//Cube cnp = *c;
-		//App->physics->AddBody(cnp);
 
 		pilesAdded++;
 		colorIterator++;
@@ -72,7 +70,7 @@ bool ModuleSceneIntro::Start()
 	base.color = Blue;
 
 	bar = Cube(15, 0.7f, 0.7f);
-	bar.SetPos(12.3, 1.4f, -45);
+	bar.SetPos(11.5f, 1.2f, -45);
 	bar.color = Yellow;
 
 	stands1 = new Cube(3, 3, 90);
@@ -146,15 +144,19 @@ bool ModuleSceneIntro::Start()
 		if (mapPiles[i] != nullptr)
 		{
 			Cube cnp = *mapPiles[i];
-			App->physics->AddBody(cnp, 200000);
+			App->physics->AddBody(cnp, 0.0f);
 		}
 	}
 	
-	pBase = App->physics->AddBody(base, 200000);
-	//pBar = App->physics->AddBody(bar, 200000);
-	const vec3 a(1, 1, 1);
-
-	//App->physics->AddConstraintHinge(*pBase, *pBar, a, a, a, a, true, true);
+	pBase = App->physics->AddBody(base, 0.f);
+	pBar = App->physics->AddBody(bar, 4.f);
+	const vec3 a(0, 1, 0);
+	const vec3 b(8, 0, 0);
+	const vec3 c(0, 0, 1);
+	const vec3 d(0, 0, 1);
+	hinge = App->physics->AddConstraintHinge(*pBase, *pBar, a, b, c, d, false);
+	hinge->setLimit(0, 90);
+	hinge->enableAngularMotor(true, 0, INFINITE);
 
 	//WIP
 	//checkpoint (lap counter)
@@ -186,11 +188,13 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_REPEAT)
 	{
-		
+		hinge->enableAngularMotor(true, 1, INFINITE);
 	}
 	
+	pBar->GetTransform(bar.transform.M);
+
 	char title[80];
 	sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time: ", App->player->vehicle->GetKmh(), App->player->gear, lap);
 	App->window->SetTitle(title);
