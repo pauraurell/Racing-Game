@@ -161,7 +161,6 @@ bool ModuleSceneIntro::Start()
 	checkpoint.SetPos(25, 1.5, -36.5f);
 	checkpointBody = App->physics->AddBody(checkpoint, this, 0.f, true);
 	lap = 0;
-
 	return ret;
 }
 
@@ -194,12 +193,17 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	SpectAnimation();
-	
+
 	pBar->GetTransform(bar.transform.M);
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time: ", App->player->vehicle->GetKmh(), App->player->gear, lap);
+	int MaxTime = 40;
+	currentTime = LapTimer.Read() / 1000;
+	sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i", App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime);
 	App->window->SetTitle(title);
+
+	if (currentTime > MaxTime) { App->player->Restart(); }
+
 
 	return UPDATE_CONTINUE;
 }
