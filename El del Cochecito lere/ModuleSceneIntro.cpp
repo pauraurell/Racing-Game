@@ -151,17 +151,15 @@ bool ModuleSceneIntro::Start()
 	const vec3 a(0, 0.7f, 0);
 	const vec3 b(8, 0, 0);
 	const vec3 c(0, 0, 1);
-	const vec3 d(0, 0, 1);
-	hinge = App->physics->AddConstraintHinge(*pBase, *pBar, a, b, c, d, false);
+	hinge = App->physics->AddConstraintHinge(*pBase, *pBar, a, b, c, c, false);
 	hinge->setLimit(-1, 90);
 	hinge->enableAngularMotor(true, 0, INFINITE);
 
 	//WIP
-	//checkpoint (lap counter)
-	//checkpoint = new Cube(3, 2.5, 14);
-	//checkpoint->color = Blue;
-	//checkpoint->SetPos(25, 1.5, -36.5f);
-	LapCounter();
+	checkpoint = Cube(3, 2.5, 12);
+	checkpoint.color = Blue;
+	checkpoint.SetPos(25, 1.5, -36.5f);
+	checkpointBody = App->physics->AddBody(checkpoint, this, 0.f, true);
 	lap = 0;
 
 	return ret;
@@ -231,10 +229,11 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	/*if (body1 == App->player->vehicleBody && body2 == checkpointBody)
+	LOG("COLLISION");
+	if (body2 == App->player->vehicleBody && body1 == checkpointBody)
 	{
 		lap++;
-	}*/
+	}
 }
 
 // ---------------------------------------------
@@ -248,15 +247,6 @@ pugi::xml_node ModuleSceneIntro::LoadMap(pugi::xml_document& map_file) const
 	else ret = map_file.child("map");
 
 	return ret;
-}
-
-void ModuleSceneIntro::LapCounter()
-{
-	checkpoint.size.Set(3, 2.5, 13);
-	checkpoint.SetPos(25, 1.5, -36.5f);
-	checkpoint.color = Blue;
-
-	checkpointBody = App->physics->AddBody(checkpoint, this, 0.0f, true);
 }
 
 void ModuleSceneIntro::SpectAnimation()
