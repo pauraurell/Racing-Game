@@ -25,6 +25,9 @@ bool ModulePlayer::Start()
 	// Camera initial point of view --------------------------
 	view = THIRD_PERSON;
 
+	// Player spawn point --------------------------
+	vec3 spawnPoint = {20, 3, -70};
+
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2.5, 0.9f, 4);
 	car.chassis_offset.Set(0, 1.5, -1.5);
@@ -111,6 +114,7 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+
 	
 	return true;
 }
@@ -170,9 +174,6 @@ update_status ModulePlayer::Update(float dt)
 
 	//VEHICLE GEARS
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && gear <= 7) { gear += 1; }
-
-	//RESTART
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { Restart(); }
 
 	switch (gear)
 	{
@@ -262,22 +263,6 @@ void  ModulePlayer::CameraFollowingPlayer()
 
 	App->camera->Look(CamPos, VehiclePos);
 }
-
-void ModulePlayer::Restart()
-{
-	vehicle->SetPos(spawnPoint.x, spawnPoint.y, spawnPoint.z);
-
-	vehicle->vehicle->getRigidBody()->setAngularVelocity({ 0, 0, 0 });
-	vehicle->vehicle->getRigidBody()->setLinearVelocity({ 0, 0, 0 });
-
-	btQuaternion SpawnOrientation = { 0, 0, 0, 1 };
-	vehicle->SetRotation(SpawnOrientation);
-
-	App->scene_intro->lap = 0;
-}
-
-
-
 
 
 

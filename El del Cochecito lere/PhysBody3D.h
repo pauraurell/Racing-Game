@@ -4,7 +4,6 @@
 #include "p2List.h"
 
 class btRigidBody;
-class btQuaternion;
 class Module;
 class vec3;
 
@@ -20,7 +19,6 @@ public:
 	void GetTransform(float* matrix) const;
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
-	void SetRotation(btQuaternion orientation);
 	const vec3 GetPos() const;
 	vec3 GetForward() const;
 

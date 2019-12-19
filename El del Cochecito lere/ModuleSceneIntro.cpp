@@ -90,7 +90,6 @@ bool ModuleSceneIntro::Start()
 	//checkpoint = new Cube(3, 2.5, 14);
 	//checkpoint->color = Blue;
 	//checkpoint->SetPos(25, 1.5, -36.5f);
-	LapCounter();
 	lap = 0;
 
 	return ret;
@@ -137,15 +136,13 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 	base.Render();
 	bar.Render();
 	p->Render();
-	checkpoint.Render();
+	//checkpoint->Render();
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
-{
-
-}
+{}
 
 // ---------------------------------------------
 pugi::xml_node ModuleSceneIntro::LoadMap(pugi::xml_document& map_file) const
@@ -159,13 +156,3 @@ pugi::xml_node ModuleSceneIntro::LoadMap(pugi::xml_document& map_file) const
 
 	return ret;
 }
-
-void ModuleSceneIntro::LapCounter()
-{
-	checkpoint.size.Set(3, 2.5, 13);
-	checkpoint.SetPos(25, 1.5, -36.5f);
-	checkpoint.color = Blue;
-
-	checkpointBody = App->physics->AddBody(checkpoint, this, 0.0f, true);
-}
-

@@ -25,16 +25,11 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void Restart();
-
 	//-----------Player_Camera-------------
 	void CameraPointOfView();
 	void CameraFollowingPlayer();
 
 public:
-
-	// Player spawn point --------------------------
-	vec3 spawnPoint = { 20, 3, -70 };
 
 	bool DynamicCamera; 
 	vec3 CameraDistance;
