@@ -25,6 +25,7 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	void LapCounter();
 
 public:
 	/*
@@ -55,8 +56,8 @@ public:
 	Cube* mapPiles[MAX_PILES];
 
 	//Laps
-
-	Cube* checkpoint;
+	PhysBody3D* checkpointBody;
+	Cube checkpoint;
 	int lap;
 
 private:

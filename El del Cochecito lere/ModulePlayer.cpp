@@ -25,9 +25,6 @@ bool ModulePlayer::Start()
 	// Camera initial point of view --------------------------
 	view = THIRD_PERSON;
 
-	// Player spawn point --------------------------
-	vec3 spawnPoint = {20, 3, -70};
-
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2.5, 0.9f, 4);
 	car.chassis_offset.Set(0, 1.5, -1.5);
@@ -114,7 +111,6 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(spawnPoint.x, spawnPoint.y, spawnPoint.z);
-
 	
 	return true;
 }
@@ -175,37 +171,40 @@ update_status ModulePlayer::Update(float dt)
 	//VEHICLE GEARS
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && gear <= 7) { gear += 1; }
 
+	//RESTART
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { Restart(); }
+
 	switch (gear)
 	{
 		case 1:
-			if (vehicle->GetKmh() >= 30) { acceleration = 0; }
+			if (vehicle->GetKmh() > 30) { acceleration = 0; }
 			break;
 		case 2:
-			if (vehicle->GetKmh() >= 60) { acceleration = 0; }
-			if (vehicle->GetKmh() < 10) { gear -= 1; }
+			if (vehicle->GetKmh() > 60) { acceleration = 0; }
+			if (vehicle->GetKmh() < 20) { gear -= 1; }
 			break;
 		case 3:
-			if (vehicle->GetKmh() >= 90) { acceleration = 0; }
-			if (vehicle->GetKmh() < 30) { gear -= 1; }
+			if (vehicle->GetKmh() > 90) { acceleration = 0; }
+			if (vehicle->GetKmh() < 50) { gear -= 1; }
 			break;
 		case 4:
-			if (vehicle->GetKmh() >= 120) { acceleration = 0; }
-			if (vehicle->GetKmh() < 60) { gear -= 1; }
+			if (vehicle->GetKmh() > 120) { acceleration = 0; }
+			if (vehicle->GetKmh() < 80) { gear -= 1; }
 			break;
 		case 5:
-			if (vehicle->GetKmh() >= 160) { acceleration = 0; }
-			if (vehicle->GetKmh() < 90) { gear -= 1; }
+			if (vehicle->GetKmh() > 160) { acceleration = 0; }
+			if (vehicle->GetKmh() < 110) { gear -= 1; }
 			break;
 		case 6:
-			if (vehicle->GetKmh() >= 200) { acceleration = 0; }
-			if (vehicle->GetKmh() < 120) { gear -= 1; }
+			if (vehicle->GetKmh() > 200) { acceleration = 0; }
+			if (vehicle->GetKmh() < 150) { gear -= 1; }
 			break;
 		case 7:
-			if (vehicle->GetKmh() >= 250) { acceleration = 0; }
-			if (vehicle->GetKmh() < 160) { gear -= 1; }
+			if (vehicle->GetKmh() > 250) { acceleration = 0; }
+			if (vehicle->GetKmh() < 190) { gear -= 1; }
 			break;
 		case 8:
-			if (vehicle->GetKmh() < 200) { gear -= 1; }
+			if (vehicle->GetKmh() < 240) { gear -= 1; }
 			break;
 	}
 
@@ -263,6 +262,22 @@ void  ModulePlayer::CameraFollowingPlayer()
 
 	App->camera->Look(CamPos, VehiclePos);
 }
+
+void ModulePlayer::Restart()
+{
+	vehicle->SetPos(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+
+	vehicle->vehicle->getRigidBody()->setAngularVelocity({ 0, 0, 0 });
+	vehicle->vehicle->getRigidBody()->setLinearVelocity({ 0, 0, 0 });
+
+	btQuaternion SpawnOrientation = { 0, 0, 0, 1 };
+	vehicle->SetRotation(SpawnOrientation);
+
+	App->scene_intro->lap = 0;
+}
+
+
+
 
 
 
