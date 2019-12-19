@@ -80,7 +80,7 @@ bool ModuleSceneIntro::Start()
 	}
 	
 	pBase = App->physics->AddBody(base, 200000);
-	pBar = App->physics->AddBody(bar, 200000);
+	//pBar = App->physics->AddBody(bar, 200000);
 	const vec3 a(1, 1, 1);
 
 	//App->physics->AddConstraintHinge(*pBase, *pBar, a, a, a, a, true, true);
@@ -137,14 +137,17 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 	base.Render();
 	bar.Render();
 	p->Render();
-	checkpoint.Render();
+	//checkpoint.Render();
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-
+	/*if (body1 == App->player->vehicleBody && body2 == checkpointBody)
+	{
+		lap++;
+	}*/
 }
 
 // ---------------------------------------------

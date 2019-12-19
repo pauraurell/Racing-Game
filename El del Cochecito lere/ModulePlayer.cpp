@@ -9,6 +9,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 {
 	turn = acceleration = brake = 0.0f;
 	DynamicCamera = true;
+	carSensor = Cube(1, 1, 1);
 }
 
 ModulePlayer::~ModulePlayer()
@@ -19,7 +20,6 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	VehicleInfo car;
 	gear = 1;
 
 	// Camera initial point of view --------------------------
@@ -127,6 +127,9 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
+	//carSensor.SetPos(VehiclePos.x, VehiclePos.y + 2, VehiclePos.z);
+	//vehicleBody = App->physics->AddBody(carSensor, this, 0.0f, true);
+	//carSensor.Render();
 
 	//VEHICLE MOVEMENT
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
