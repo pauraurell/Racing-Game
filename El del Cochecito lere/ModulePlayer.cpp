@@ -34,6 +34,8 @@ bool ModulePlayer::Start()
 	car.prow_offset.Set(0, 1.5, 2);
 	car.aileron_size.Set(2.5, 0.5f, 0.75);
 	car.aileron_offset.Set(0, 2.25, -3.8);
+	car.light_size.Set(0.2, 0.2f, 0.2);
+	car.light_offset.Set(0, 1.4, -3.5);
 	car.mass = 500.0f;
 	car.suspensionStiffness = 15.0f;
 	car.suspensionCompression = 0.83f;
@@ -111,6 +113,7 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+	vehicle->info.revolutions = false;
 	
 	return true;
 }
@@ -183,37 +186,45 @@ update_status ModulePlayer::Update(float dt)
 
 	//RESTART
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { Restart(); }
-
+	
 	switch (gear)
 	{
 		case 1:
-			if (vehicle->GetKmh() > 30) { acceleration = 0; }
+			if (vehicle->GetKmh() > 30) { acceleration = 0; vehicle->info.revolutions = true; }
+			else { vehicle->info.revolutions = false; }
 			break;
 		case 2:
-			if (vehicle->GetKmh() > 60) { acceleration = 0; }
-			if (vehicle->GetKmh() < 20) { gear -= 1; }
+			if (vehicle->GetKmh() > 60) { acceleration = 0; vehicle->info.revolutions = true; }
+			else { vehicle->info.revolutions = false; }
+			if (vehicle->GetKmh() < 10) { gear -= 1; }
 			break;
 		case 3:
-			if (vehicle->GetKmh() > 90) { acceleration = 0; }
-			if (vehicle->GetKmh() < 50) { gear -= 1; }
+			if (vehicle->GetKmh() > 90) { acceleration = 0; vehicle->info.revolutions = true; }
+			else { vehicle->info.revolutions = false; }
+			if (vehicle->GetKmh() < 30) { gear -= 1; }
 			break;
 		case 4:
-			if (vehicle->GetKmh() > 120) { acceleration = 0; }
+			if (vehicle->GetKmh() > 120) { acceleration = 0; vehicle->info.revolutions = true; }
+			else { vehicle->info.revolutions = false; }
 			if (vehicle->GetKmh() < 80) { gear -= 1; }
 			break;
 		case 5:
-			if (vehicle->GetKmh() > 160) { acceleration = 0; }
+			if (vehicle->GetKmh() > 160) { acceleration = 0; vehicle->info.revolutions = true; }
+			else { vehicle->info.revolutions = false; }
 			if (vehicle->GetKmh() < 110) { gear -= 1; }
 			break;
 		case 6:
-			if (vehicle->GetKmh() > 200) { acceleration = 0; }
+			if (vehicle->GetKmh() > 200) { acceleration = 0; vehicle->info.revolutions = true; }
+			else { vehicle->info.revolutions = false; }
 			if (vehicle->GetKmh() < 150) { gear -= 1; }
 			break;
 		case 7:
-			if (vehicle->GetKmh() > 250) { acceleration = 0; }
+			if (vehicle->GetKmh() > 250) { acceleration = 0; vehicle->info.revolutions = true; }
+			else { vehicle->info.revolutions = false; }
 			if (vehicle->GetKmh() < 190) { gear -= 1; }
 			break;
 		case 8:
+			vehicle->info.revolutions = false;
 			if (vehicle->GetKmh() < 240) { gear -= 1; }
 			break;
 	}

@@ -1,5 +1,7 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
+#include "Application.h"
+#include "Globals.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
 // ----------------------------------------------------------------------------
@@ -85,11 +87,24 @@ void PhysVehicle3D::Render()
 	aileron.transform.M[13] += offset4.getY();
 	aileron.transform.M[14] += offset4.getZ();
 
+	Cube light(info.light_size.x, info.light_size.y, info.light_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&light.transform);
+	btQuaternion q5 = vehicle->getChassisWorldTransform().getRotation();
+	btVector3 offset5(info.light_offset.x, info.light_offset.y,
+		info.light_offset.z);
+	offset5 = offset5.rotate(q5.getAxis(), q5.getAngle());
+	if(info.revolutions == true){ light.color = Red; }
+	else { light.color = Green; }
+
+	light.transform.M[12] += offset5.getX();
+	light.transform.M[13] += offset5.getY();
+	light.transform.M[14] += offset5.getZ();
 
 	chassis.Render();
 	glass.Render();
 	prow.Render();
 	aileron.Render();
+	light.Render();
 }
 
 // ----------------------------------------------------------------------------
