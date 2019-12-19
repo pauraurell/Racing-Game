@@ -50,6 +50,8 @@ public:
 	float acceleration;
 	float brake;
 	int gear;
+	bool barUp;
+	bool lap;
 
 private:
 	cameraTypes view;
