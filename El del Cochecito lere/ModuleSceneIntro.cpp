@@ -205,7 +205,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime); }
 	if (App->player->vehicle->Scuderia == McLaren) {sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i || Scuderia: McLaren",
 	App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime);}
-	if (App->player->vehicle->Scuderia == RedBull) {sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i || Scuderia: RedBull",
+	if (App->player->vehicle->Scuderia == RedBull) {sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i || Scuderia: Red Bull",
 	App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime);}
 	
 	App->window->SetTitle(title);

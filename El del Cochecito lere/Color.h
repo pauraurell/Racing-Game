@@ -33,6 +33,7 @@ extern Color Blue;
 extern Color Black;
 extern Color White;
 extern Color Yellow;
+extern Color Yellow2;
 extern Color LightBlue;
 extern Color Grey;
 extern Color NavyBlue;
