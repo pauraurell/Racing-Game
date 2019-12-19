@@ -14,6 +14,7 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	for (int i = 0; i < MAX_PILES; i++) {
 		mapPiles[i] = nullptr;
 	}
+	checkpointPos = vec3(24, -30, 26);
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -156,10 +157,9 @@ bool ModuleSceneIntro::Start()
 	hinge->enableAngularMotor(true, 0, INFINITE);
 
 	//WIP
-	checkpoint = Cube(3, 2.5, 12);
+	checkpoint = Cube(1, 3, 1);
 	checkpoint.color = Blue;
-	checkpoint.SetPos(25, 1.5, -36.5f);
-	checkpointBody = App->physics->AddBody(checkpoint, this, 0.f, true);
+	checkpoint.SetPos(25, 1.5, -29);
 	lap = 0;
 	return ret;
 }
@@ -204,6 +204,18 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	if (currentTime > MaxTime) { App->player->Restart(); }
 
+	if (App->player->VehiclePos.z < checkpointPos.y) {
+		if (App->player->VehiclePos.x > checkpointPos.x && App->player->VehiclePos.x < checkpointPos.z) {
+			if (!lap_) {
+				lap++;
+				lap_ = true;
+			}
+		}
+	}
+	else {
+		lap_ = false;
+	}
+
 
 	return UPDATE_CONTINUE;
 }
@@ -226,7 +238,7 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 	stands2->Render();
 	stands3->Render();
 	p->Render();
-	//checkpoint.Render();
+	checkpoint.Render();
 
 	return UPDATE_CONTINUE;
 }
@@ -234,10 +246,7 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	LOG("COLLISION");
-	if (body2 == App->player->vehicleBody && body1 == checkpointBody)
-	{
-		lap++;
-	}
+	//if (body2 == App->player->vehicleBody && body1 == checkpointBody)lap++;
 }
 
 // ---------------------------------------------
