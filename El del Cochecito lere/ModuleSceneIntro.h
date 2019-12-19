@@ -8,6 +8,7 @@
 
 #define MAX_SNAKE 2
 #define MAX_PILES 1000
+#define MAX_SPECTATORS 135
 
 struct PhysBody3D;
 struct PhysMotor3D;
@@ -50,10 +51,14 @@ public:
 
 	Cube base;
 	Cube bar;
+	Cube* stands1;
+	Cube* stands2;
+	Cube* stands3;
 	PhysBody3D* pBase;
 	PhysBody3D* pBar;
 
 	Cube* mapPiles[MAX_PILES];
+	Cube* spectators[MAX_SPECTATORS];
 
 	//Laps
 	PhysBody3D* checkpointBody;
