@@ -117,6 +117,7 @@ bool ModulePlayer::Start()
 	vehicle->SetPos(spawnPoint.x, spawnPoint.y, spawnPoint.z);
 	vehicle->info.revolutions = false;
 	
+	VehiclePos = vehicle->GetPos();
 	return true;
 }
 
@@ -177,20 +178,11 @@ update_status ModulePlayer::Update(float dt)
 	}
 
 	//BAR INPUT
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
-	{
-		if (barUp == false)
-		{
-			App->scene_intro->hinge->enableAngularMotor(true, 1, INFINITE);
-			App->scene_intro->bar.color = Green;
-		}
-		else if (barUp == true)
-		{
-			App->scene_intro->hinge->enableAngularMotor(true, -1, INFINITE);
-			App->scene_intro->bar.color = Red;
-		}
-		if (barUp == true) { barUp = false; }
-		else { barUp = true; }
+	if (VehiclePos.z > -60 && barUp == false) {
+		LOG("%i", VehiclePos.z);
+		App->scene_intro->hinge->enableAngularMotor(true, 1, INFINITE);
+		App->scene_intro->bar.color = Green;
+		barUp = true;
 	}
 
 	//VEHICLE GEARS
@@ -314,9 +306,12 @@ void ModulePlayer::Restart()
 	btQuaternion SpawnOrientation = { 0, 0, 0, 1 };
 	vehicle->SetRotation(SpawnOrientation);
 
-	App->scene_intro->hinge->enableAngularMotor(false, -1, INFINITE);
-	App->scene_intro->bar.color = Red;
-	barUp = false;
+	if (barUp == true)
+	{
+		App->scene_intro->hinge->enableAngularMotor(true, -1, INFINITE);
+		App->scene_intro->bar.color = Red;
+		barUp = false;
+	}
 
 	App->scene_intro->lap = 0;
 	App->scene_intro->LapTimer.Start();
