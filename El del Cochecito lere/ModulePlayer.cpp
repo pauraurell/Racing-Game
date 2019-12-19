@@ -171,6 +171,13 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
+	//BAR INPUT
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		App->scene_intro->hinge->enableAngularMotor(true, 1, INFINITE);
+		App->scene_intro->bar.color = Green;
+	}
+
 	//VEHICLE GEARS
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && gear <= 7) { gear += 1; }
 
@@ -275,6 +282,8 @@ void ModulePlayer::Restart()
 
 	btQuaternion SpawnOrientation = { 0, 0, 0, 1 };
 	vehicle->SetRotation(SpawnOrientation);
+
+	App->scene_intro->bar.color = Red;
 
 	App->scene_intro->lap = 0;
 }

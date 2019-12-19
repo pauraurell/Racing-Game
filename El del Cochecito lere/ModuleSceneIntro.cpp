@@ -67,11 +67,11 @@ bool ModuleSceneIntro::Start()
 	base = Cube(0.7f, 1, 0.7f);
 	float Yoffset = base.size.y / 2;
 	base.SetPos(19.5f, Yoffset, -45);
-	base.color = Blue;
+	base.color = Grey;
 
 	bar = Cube(15, 0.7f, 0.7f);
 	bar.SetPos(11.5f, 1.2f, -45);
-	bar.color = Yellow;
+	bar.color = Red;
 
 	stands1 = new Cube(3, 3, 90);
 	Yoffset = stands1->size.y / 2;
@@ -195,11 +195,6 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_REPEAT)
-	{
-		hinge->enableAngularMotor(true, 1, INFINITE);
-	}
-
 	SpectAnimation();
 	
 	pBar->GetTransform(bar.transform.M);
