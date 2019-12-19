@@ -197,7 +197,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	pBar->GetTransform(bar.transform.M);
 
 	char title[80];
-	int MaxTime = 40;
+	int MaxTime = 40 - lap*4;
 	currentTime = LapTimer.Read() / 1000;
 	sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i", App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime);
 	App->window->SetTitle(title);
@@ -209,6 +209,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			if (!lap_) {
 				lap++;
 				lap_ = true;
+				LapTimer.Start();
 			}
 		}
 	}
