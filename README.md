@@ -10,7 +10,8 @@ Controls:
 • 1 to change between F1 Scuderias.	
 
 Debug Keys:
-• F3 -> Respawn.	
+• F3 -> Respawn.
+• F4 -> Direct Win.	
 • F9 -> Free Camera.
 
 Team Members:
