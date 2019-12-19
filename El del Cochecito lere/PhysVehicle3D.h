@@ -48,6 +48,11 @@ struct VehicleInfo
 	int num_wheels;
 };
 
+enum SetOfColors {
+	Renault,
+	Ferrari,
+	McLaren
+};
 
 struct PhysVehicle3D : public PhysBody3D
 {
@@ -65,4 +70,5 @@ public:
 
 	VehicleInfo info;
 	btRaycastVehicle* vehicle;
+	SetOfColors Scuderia;
 };

@@ -186,6 +186,14 @@ update_status ModulePlayer::Update(float dt)
 
 	//RESTART
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { Restart(); }
+
+	//CHANGE CAR
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		if (vehicle->Scuderia == Renault) { vehicle->Scuderia = Ferrari; }
+		else if (vehicle->Scuderia == Ferrari) { vehicle->Scuderia = McLaren; }
+		else if (vehicle->Scuderia == McLaren) { vehicle->Scuderia = Renault; }
+	}
 	
 	switch (gear)
 	{
