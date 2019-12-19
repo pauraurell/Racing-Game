@@ -62,9 +62,10 @@ public:
 	bool spectUp[MAX_SPECTATORS];
 
 	//Laps
-	PhysBody3D* checkpointBody;
 	Cube checkpoint;
+	vec3 checkpointPos;
 	int lap;
+	bool lap_ = false;
 
 	//Timers
 	int currentTime;
