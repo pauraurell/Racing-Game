@@ -126,12 +126,15 @@ bool ModuleSceneIntro::Start()
 		initialYpos = (float)(std::rand() % 2);
 		if (spectCount < 45) {
 			c->SetPos(-100, cYoffset + Yoffset + 2 + initialYpos, 54 - spectCount * 2);
+			spectYpos[spectCount] = cYoffset + Yoffset + 2 + initialYpos;
 		}
 		else if (spectCount >= 45 && spectCount < 90) {
 			c->SetPos(-105, cYoffset + Yoffset + 5 + initialYpos, 54 - (spectCount - 45) * 2);
+			spectYpos[spectCount] = cYoffset + Yoffset + 2 + initialYpos;
 		}
 		else if (spectCount >= 90) {
 			c->SetPos(-110, cYoffset + Yoffset + 8 + initialYpos, 54 - (spectCount - 90) * 2);
+			spectYpos[spectCount] = cYoffset + Yoffset + 2 + initialYpos;
 		}
 		spectators[spectAdded] = c;
 		spectAdded++;
@@ -243,5 +246,24 @@ void ModuleSceneIntro::LapCounter()
 	checkpoint.color = Blue;
 
 	checkpointBody = App->physics->AddBody(checkpoint, this, 0.0f, true);
+}
+
+void ModuleSceneIntro::SpectAnimation()
+{
+	for (int i = 0; i < MAX_SPECTATORS; i++)
+	{
+
+
+
+		if (i < 45) {
+			spectators[i]->SetPos(-100, spectYpos[i] + spectYmov[i], 54 - i * 2);
+		}
+		else if (i >= 45 && i < 90) {
+			spectators[i]->SetPos(-105, spectYpos[i] + spectYmov[i], 54 - (i - 45) * 2);
+		}
+		else if (i >= 90) {
+			spectators[i]->SetPos(-110, spectYpos[i] + spectYmov[i], 54 - (i - 90) * 2);
+		}
+	}
 }
 

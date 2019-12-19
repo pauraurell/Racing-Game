@@ -27,6 +27,7 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void LapCounter();
+	void SpectAnimation();
 
 public:
 	/*
@@ -59,6 +60,8 @@ public:
 
 	Cube* mapPiles[MAX_PILES];
 	Cube* spectators[MAX_SPECTATORS];
+	float spectYpos[MAX_SPECTATORS];
+	float spectYmov[MAX_SPECTATORS];
 
 	//Laps
 	PhysBody3D* checkpointBody;
