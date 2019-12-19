@@ -70,7 +70,7 @@ bool ModuleSceneIntro::Start()
 	base.color = Grey;
 
 	bar = Cube(15, 0.7f, 0.7f);
-	bar.SetPos(11.5f, 1.2f, -45);
+	bar.SetPos(11.5f, 1.0f, -45);
 	bar.color = Red;
 
 	stands1 = new Cube(3, 3, 90);
@@ -147,13 +147,13 @@ bool ModuleSceneIntro::Start()
 	}
 	
 	pBase = App->physics->AddBody(base, 0.f);
-	pBar = App->physics->AddBody(bar, 4.f);
-	const vec3 a(0, 1, 0);
+	pBar = App->physics->AddBody(bar, 500);
+	const vec3 a(0, 0.7f, 0);
 	const vec3 b(8, 0, 0);
 	const vec3 c(0, 0, 1);
 	const vec3 d(0, 0, 1);
 	hinge = App->physics->AddConstraintHinge(*pBase, *pBar, a, b, c, d, false);
-	hinge->setLimit(0, 90);
+	hinge->setLimit(-1, 90);
 	hinge->enableAngularMotor(true, 0, INFINITE);
 
 	//WIP
@@ -163,7 +163,6 @@ bool ModuleSceneIntro::Start()
 	//checkpoint->SetPos(25, 1.5, -36.5f);
 	LapCounter();
 	lap = 0;
-
 	return ret;
 }
 
@@ -196,12 +195,17 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	SpectAnimation();
-	
+
 	pBar->GetTransform(bar.transform.M);
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time: ", App->player->vehicle->GetKmh(), App->player->gear, lap);
+	int MaxTime = 40;
+	currentTime = LapTimer.Read() / 1000;
+	sprintf_s(title, "%.1f Km/h  ||  Gear: %i  ||  Laps: %i  || Time Left: %i", App->player->vehicle->GetKmh(), App->player->gear, lap, MaxTime - currentTime);
 	App->window->SetTitle(title);
+
+	if (currentTime > MaxTime) { App->player->Restart(); }
+
 
 	return UPDATE_CONTINUE;
 }
