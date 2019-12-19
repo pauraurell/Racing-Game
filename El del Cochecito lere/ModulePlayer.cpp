@@ -178,6 +178,13 @@ update_status ModulePlayer::Update(float dt)
 	}
 
 	//BAR INPUT
+	if (barUp == true)
+	{
+		App->scene_intro->hinge->enableAngularMotor(false, 0, INFINITE);
+		App->scene_intro->hinge->enableAngularMotor(true, -1, INFINITE);
+		App->scene_intro->bar.color = Red;
+		barUp = false;
+	}
 	if (VehiclePos.z > -60 && VehiclePos.z < -40 && barUp == false) {
 		App->scene_intro->hinge->enableAngularMotor(true, 1, INFINITE);
 		App->scene_intro->bar.color = Green;
@@ -306,14 +313,6 @@ void ModulePlayer::Restart()
 
 	btQuaternion SpawnOrientation = { 0, 0, 0, 1 };
 	vehicle->SetRotation(SpawnOrientation);
-
-	if (barUp == true)
-	{
-		App->scene_intro->hinge->enableAngularMotor(false, 0, INFINITE);
-		App->scene_intro->hinge->enableAngularMotor(true, -1, INFINITE);
-		App->scene_intro->bar.color = Red;
-		barUp = false;
-	}
 
 	App->scene_intro->lap = 0;
 	App->scene_intro->LapTimer.Start();
