@@ -256,8 +256,6 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
-	
-
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 	{
 		DynamicCamera = !DynamicCamera;
